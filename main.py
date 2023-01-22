@@ -1,13 +1,21 @@
-from telegram import Update
-from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes
+import os
+import logging
 
+from aiogram import Bot, Dispatcher, executor
+from dotenv import load_dotenv
 
-async def hello(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    await update.message.reply_text(f'Hello {update.effective_user.first_name}')
+from handlers import storage, register_handlers
 
+load_dotenv()
 
-app = ApplicationBuilder().token("YOUR TOKEN HERE").build()
+logging.basicConfig(level=logging.INFO)
 
-app.add_handler(CommandHandler("hello", hello))
+API_TOKEN = os.getenv('TG_TOKEN')
 
-app.run_polling()
+bot = Bot(token=API_TOKEN)
+dispatcher = Dispatcher(bot=bot, storage=storage)
+
+register_handlers(dispatcher)
+
+if __name__ == '__main__':
+    executor.start_polling(dispatcher, skip_updates=True)
