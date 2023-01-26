@@ -3,3 +3,4 @@
 venv/
 .env
 __pycache__
+db_bot.db

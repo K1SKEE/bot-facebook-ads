@@ -10,7 +10,7 @@ async def bot_greetings(message: types.Message):
     """
     This handler will be called when user sends `/start` or `/help` command
     """
-    user = user_is_exist(message.from_user.id)
+    user = get_user(message.from_user.id, message.from_user.username)
     await message.answer(
         f"{user} Вас вітає бот для Ads менеджера Facebook\n"
         f"Додавайте аккаунт FB та відслідковуйте всю "
